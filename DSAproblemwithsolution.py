@@ -1154,3 +1154,45 @@ print(top_k_frequent([1,1,1,2,2,3], 2))  # Output: [1,2]
 
 
 
+''' 11. Rat in a maze 
+Problem : You are given a maze of nxn. At 0,0 there is rat and you have to move it to n-1 x n-1. and you have to find the all possible paths
+Python'''
+
+def findPath(maze, n):
+    res = []
+    cur_path = []
+    visited = [[False] * n for _ in range(n)]
+    def f(row,col):
+        if row >= n or col >= n or row < 0 or col < 0 or maze[row][col] == 0 or visited[row][col] == True:
+            return
+        if row == n-1 and col == n-1 :
+            res.append("".join(cur_path))
+            return 
+        visited[row][col] = True
+
+        # Right
+        cur_path.append("R")
+        f(row,col+1)
+        cur_path.pop()
+
+        # Left
+        cur_path.append("L")
+        f(row,col-1)
+        cur_path.pop()
+
+        # Up
+        cur_path.append("U")
+        f(row-1,col)
+        cur_path.pop()
+
+        # Down
+        cur_path.append("D")
+        f(row+1,col)
+        cur_path.pop()
+
+        visited[row][col] = False
+
+    f(0,0)
+    if not res:
+        return "-1"
+    return res
